@@ -6,11 +6,11 @@ export default function Component() {
       <div className="space-y-2 text-center">
         <FileIcon className="mx-auto h-20 w-20" />
         <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-          Uh oh! This page doesn't exist.
+          Uh oh! This page doesn&apos;t exist.
         </h1>
         <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
-          You've hit a route that doesn't exist. The good news is, you can
-          always go back to the homepage.
+          You&apos;ve hit a route that doesn&apos;t exist. The good news is, you
+          can always go back to the homepage.
         </p>
       </div>
       <Link
