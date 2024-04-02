@@ -2,7 +2,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 
-const index = () => {
+const Index = () => {
   const pathname = usePathname();
   return (
     <div className="flex justify-center items-center h-screen ">
@@ -17,4 +17,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
