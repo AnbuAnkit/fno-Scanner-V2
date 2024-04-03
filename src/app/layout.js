@@ -2,6 +2,8 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import GoToTop from "@/components/GoToTop";
+import Providers from "@/redux/provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,8 +24,11 @@ export default function RootLayout({ children }) {
           fontSans.variable
         )}
       >
-        {children}
-        <GoToTop />
+        <Providers>
+          {children}
+          <GoToTop />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

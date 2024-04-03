@@ -1,0 +1,585 @@
+"use client";
+import { Card, CardTitle } from "@/components/ui/card";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
+import { useState, useEffect } from "react";
+import {
+  SelectExpDateToast,
+  SelectIndexExpDateToast,
+  SelectIndexExpDateStrikeToast,
+  failedToLoadDateToast,
+} from "@/lib/ToastComponent";
+import { domain } from "@/lib/url";
+import { useSelector } from "react-redux";
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ArrowDownLeftIcon,
+  ArrowUpLeftIcon,
+} from "@/components/Icon/Arrow";
+
+const Downtrend = "Down Trend";
+
+const OiBuildup = () => {
+  const [index, setIndex] = useState(null);
+  const [selectedDate, setSelectedDate] = useState();
+  const [dates, setDates] = useState([]);
+  const [oiBuildup, setOiBuildup] = useState([]);
+  const [priceRange, setPriceRange] = useState(1000);
+  const [currentPrice, setCurrentPrice] = useState(0);
+
+  const { data, status } = useSelector((state) => state.expiryDates);
+
+  useEffect(() => {
+    if (index && data.data && data.data[index]) {
+      setDates(data.data[index]);
+    } else {
+      setDates([]);
+    }
+  }, [index, data]);
+
+  const fetchOIBuildup = async (value) => {
+    setSelectedDate(value);
+    const data = `${index}-optionChain-${value}`;
+    try {
+      const oiBuildupUrl = `${domain}/api/optionChain/${data}`;
+      const response = await fetch(oiBuildupUrl);
+
+      if (response.ok) {
+        const fetchedOiBuildup = await response.json();
+        const oiBuildup = fetchedOiBuildup.data;
+
+        if (oiBuildup.length > 0 && oiBuildup[0].underlyingValue) {
+          const underlyingValue = parseFloat(oiBuildup[0].underlyingValue);
+          if (!isNaN(underlyingValue)) {
+            setCurrentPrice(underlyingValue);
+          }
+        }
+        setOiBuildup(oiBuildup);
+        console.log("OI fetched");
+      } else {
+        console.error("API Request failed with status:", response.status);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  const refeshData = () => {
+    if (selectedDate == null || index == null) {
+      SelectIndexExpDateToast();
+    } else {
+      fetchOIBuildup(selectedDate);
+    }
+  };
+
+  const setStrikeRange = (value) => {
+    let range;
+
+    if (index == "nifty") {
+      range = value * 50;
+      setPriceRange(range);
+    } else if (index == "banknifty") {
+      range = value * 100;
+      setPriceRange(range);
+    } else if (index == "finnifty") {
+      range = value * 50;
+      setPriceRange(range);
+    } else if (index == "midcpnifty") {
+      range = value * 25;
+      setPriceRange(range);
+    }
+  };
+  const setSelectedIndex = (value) => {
+    setOiBuildup([]);
+    let noOfStrikes = 11;
+    if (value == "nifty") {
+      setPriceRange(50 * noOfStrikes);
+    } else if (value == "banknifty") {
+      setPriceRange(100 * noOfStrikes);
+    } else if (value == "finnifty") {
+      setPriceRange(50 * noOfStrikes);
+    } else if (value == "midcpnifty") {
+      setPriceRange(25 * noOfStrikes);
+    }
+    setIndex(value);
+    SelectExpDateToast();
+  };
+
+  if (status === "loading")
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading...
+      </div>
+    );
+  if (status === "failed") {
+    failedToLoadDateToast();
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Error fetching Initial data
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-fit xl:pr-5 pb-5 px-3 xl:px-0">
+      <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
+        <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
+          <Select onValueChange={setSelectedIndex}>
+            <SelectTrigger className="md:w-[180px]  w-[300px]">
+              <SelectValue placeholder="Select an INDEX" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>INDEX/Stock</SelectLabel>
+                <SelectItem value="nifty">NIFTY</SelectItem>
+                <SelectItem value="banknifty">BANK-NIFTY</SelectItem>
+                <SelectItem value="finnifty">FIN-NIFTY</SelectItem>
+                <SelectItem value="midcpnifty">MID-CP-NIFTY</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={fetchOIBuildup}>
+            <SelectTrigger className="md:w-[200px]  w-[300px]">
+              <SelectValue placeholder="Select an Exp. Date" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Exp. Date</SelectLabel>
+                {dates.map((date) => (
+                  <SelectItem key={date.expiryDate} value={date.expiryDate}>
+                    {date.expiryDate}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={setStrikeRange}>
+            <SelectTrigger className="md:w-[140px]  w-[300px]">
+              <SelectValue placeholder="No. of Strikes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="11">10</SelectItem>
+                <SelectItem value="16">15</SelectItem>
+
+                <SelectItem value="21">20</SelectItem>
+                <SelectItem value="31">30</SelectItem>
+                <SelectItem value="41">40</SelectItem>
+                <SelectItem value="51">50</SelectItem>
+                <SelectItem value="61">ALL</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <div className="space-x-5 lg:block text-gray-600 text-xs font-semibold hidden ">
+            SPOT Price: <span className="text-blue-500">{currentPrice}</span>{" "}
+          </div>
+        </div>
+        <div className="pt-2 md:pt-0">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={refeshData}
+            className="w-[300px] md:w-10"
+          >
+            <RefreshCw size={18} className="text-gray-600 " />
+          </Button>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 font-bold  text-green-500">
+              CALL
+            </TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 font-bold  text-red-500">
+              PUT
+            </TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+          </TableRow>
+          <TableRow>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              OVER-ALL INDEX TREND
+            </TableHead>
+            <TableHead className="text-center text-xs font-semibold  bg-green-200">
+              OI-BUILDUP
+            </TableHead>
+
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              CHG IN OI
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              LTP CHG.
+            </TableHead>
+
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              LTP
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-yellow-100 border-b-[0.5px] border-x-[0.5px]">
+              STRIKE
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              LTP
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              LTP CHG.
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              CHG IN OI
+            </TableHead>
+
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              OI-BUILDUP
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              OVER-ALL INDEX TREND
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+
+        {oiBuildup.length > 0 && (
+          <TableBody className="text-center bg-amber-0">
+            {oiBuildup.map((oiBuildup) => {
+              const strikePrice = parseFloat(oiBuildup.strikePrice);
+              const priceDifference = Math.abs(strikePrice - currentPrice);
+
+              if (priceDifference <= priceRange) {
+                return (
+                  <TableRow
+                    className=" hover:bg-amber-0 text-xs text-center"
+                    key={oiBuildup.strikePrice}
+                  >
+                    <TableCell
+                      className={`text-center  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      <span
+                        className={`py-1 px-3 rounded-full opacity-80 ${
+                          (oiBuildup.CE_change > 0 &&
+                            oiBuildup.CE_changeinOpenInterest > 0) ||
+                          (oiBuildup.CE_change > 0 &&
+                            oiBuildup.CE_changeinOpenInterest < 0)
+                            ? "px-2 py-1 bg-green-200 text-green-600 rounded-md" // Green for uptrend
+                            : (oiBuildup.CE_change < 0 &&
+                                oiBuildup.CE_changeinOpenInterest > 0) ||
+                              (oiBuildup.CE_change < 0 &&
+                                oiBuildup.CE_changeinOpenInterest < 0)
+                            ? "px-2 py-1 bg-red-200 text-red-600 rounded-md" // Red for downtrend
+                            : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md"
+                        }`}
+                      >
+                        <span className="text-xs font-semibold">
+                          {(oiBuildup.CE_change > 0 &&
+                            oiBuildup.CE_changeinOpenInterest > 0) ||
+                          (oiBuildup.CE_change > 0 &&
+                            oiBuildup.CE_changeinOpenInterest < 0) ? (
+                            <span>
+                              <ArrowUpIcon className="w-4 h-4 inline-block mr-1" />
+                              Up Trend
+                            </span>
+                          ) : (oiBuildup.CE_change < 0 &&
+                              oiBuildup.CE_changeinOpenInterest > 0) ||
+                            (oiBuildup.CE_change < 0 &&
+                              oiBuildup.CE_changeinOpenInterest < 0) ? (
+                            <span>
+                              <ArrowDownIcon className="w-4 h-4 inline-block mr-1" />
+                              Down Trend
+                            </span>
+                          ) : (
+                            "--"
+                          )}
+                        </span>
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      className={`text-center  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      <span
+                        className={`py-1 px-3 rounded-full opacity-80 ${
+                          oiBuildup.CE_change > 0 &&
+                          oiBuildup.CE_changeinOpenInterest > 0
+                            ? "px-2 py-1 bg-green-200 text-green-600 rounded-md" // Green for uptrend
+                            : oiBuildup.CE_change < 0 &&
+                              oiBuildup.CE_changeinOpenInterest > 0
+                            ? "px-2 py-1 bg-red-200 text-red-600 rounded-md" // Red for downtrend
+                            : oiBuildup.CE_change > 0 &&
+                              oiBuildup.CE_changeinOpenInterest < 0
+                            ? "px-2 py-1 bg-blue-200 text-blue-600 rounded-md" // Blue for Short Covering
+                            : oiBuildup.CE_change < 0 &&
+                              oiBuildup.CE_changeinOpenInterest < 0
+                            ? "px-2 py-1 bg-yellow-200 text-yellow-600 rounded-md" // Yellow for Long Unwinding
+                            : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md" // Gray as a default or for any other scenario
+                        }`}
+                      >
+                        <span className="text-xs font-semibold">
+                          {oiBuildup.CE_change > 0 &&
+                          oiBuildup.CE_changeinOpenInterest > 0 ? (
+                            <span>
+                              <ArrowUpIcon className="w-4 h-4 inline-block mr-1" />
+                              Long B.
+                            </span>
+                          ) : oiBuildup.CE_change < 0 &&
+                            oiBuildup.CE_changeinOpenInterest > 0 ? (
+                            <span>
+                              <ArrowDownIcon className="w-4 h-4 inline-block mr-1" />
+                              Short B.
+                            </span>
+                          ) : oiBuildup.CE_change > 0 &&
+                            oiBuildup.CE_changeinOpenInterest < 0 ? (
+                            <span>
+                              <ArrowUpLeftIcon className="w-4 h-4 inline-block mr-1" />
+                              Short C.
+                            </span>
+                          ) : oiBuildup.CE_change < 0 &&
+                            oiBuildup.CE_changeinOpenInterest < 0 ? (
+                            <span>
+                              <ArrowDownLeftIcon className="w-4 h-4 inline-block mr-1" />
+                              Long U.
+                            </span>
+                          ) : (
+                            "--"
+                          )}
+                        </span>
+                      </span>
+                    </TableCell>
+
+                    <TableCell
+                      className={`text-center font-semibold  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }
+                        ${
+                          parseFloat(oiBuildup.CE_changeinOpenInterest) > 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                    >
+                      {oiBuildup.CE_changeinOpenInterest}
+                    </TableCell>
+
+                    <TableCell
+                      className={`text-center font-semibold  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }
+                        ${
+                          parseFloat(oiBuildup.CE_change) > 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                    >
+                      {parseFloat(oiBuildup.CE_change).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {oiBuildup.CE_lastPrice}
+                    </TableCell>
+                    {/* STRIKE PRICE */}
+                    <TableCell className="text-center bg-amber-100 font-semibold">
+                      {oiBuildup.strikePrice}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center   hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {oiBuildup.PE_lastPrice}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center font-semibold  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }
+                        ${
+                          parseFloat(oiBuildup.PE_change) > 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                    >
+                      {parseFloat(oiBuildup.PE_change).toFixed(2)}
+                    </TableCell>
+
+                    <TableCell
+                      className={`text-center font-semibold  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }
+                        ${
+                          parseFloat(oiBuildup.PE_changeinOpenInterest) > 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                    >
+                      {oiBuildup.PE_changeinOpenInterest}
+                    </TableCell>
+
+                    <TableCell
+                      className={`text-center  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      <span
+                        className={`py-1 px-3 rounded-full opacity-80 ${
+                          oiBuildup.PE_change > 0 &&
+                          oiBuildup.PE_changeinOpenInterest > 0
+                            ? "px-2 py-1 bg-green-200 text-green-600 rounded-md" // Green for Long Buildup
+                            : oiBuildup.PE_change < 0 &&
+                              oiBuildup.PE_changeinOpenInterest > 0
+                            ? "px-2 py-1 bg-red-200 text-red-600 rounded-md" // Red for Short Buildup
+                            : oiBuildup.PE_change > 0 &&
+                              oiBuildup.PE_changeinOpenInterest < 0
+                            ? "px-2 py-1 bg-blue-200 text-blue-600 rounded-md" // Blue for Short Covering
+                            : oiBuildup.PE_change < 0 &&
+                              oiBuildup.PE_changeinOpenInterest < 0
+                            ? "px-2 py-1 bg-yellow-200 text-yellow-600 rounded-md" // Yellow for Long Unwinding
+                            : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md" // Gray as a default or for any other sPEnario
+                        }`}
+                      >
+                        <span className="text-xs font-semibold">
+                          {oiBuildup.PE_change > 0 &&
+                          oiBuildup.PE_changeinOpenInterest > 0 ? (
+                            <span>
+                              <ArrowUpIcon className="w-4 h-4 inline-block mr-1" />
+                              Long B.
+                            </span>
+                          ) : oiBuildup.PE_change < 0 &&
+                            oiBuildup.PE_changeinOpenInterest > 0 ? (
+                            <span>
+                              <ArrowDownIcon className="w-4 h-4 inline-block mr-1" />
+                              Short B.
+                            </span>
+                          ) : oiBuildup.PE_change > 0 &&
+                            oiBuildup.PE_changeinOpenInterest < 0 ? (
+                            <span>
+                              <ArrowUpLeftIcon className="w-4 h-4 inline-block mr-1" />
+                              Short C.
+                            </span>
+                          ) : oiBuildup.PE_change < 0 &&
+                            oiBuildup.PE_changeinOpenInterest < 0 ? (
+                            <span>
+                              <ArrowUpLeftIcon className="w-4 h-4 inline-block mr-1" />
+                              Long U.
+                            </span>
+                          ) : (
+                            "--"
+                          )}
+                        </span>
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      className={`text-center  hover:bg-amber-0 ${
+                        parseFloat(oiBuildup.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      <span
+                        className={`py-1 px-3 rounded-full opacity-80 ${
+                          (oiBuildup.PE_change > 0 &&
+                            oiBuildup.PE_changeinOpenInterest > 0) ||
+                          (oiBuildup.PE_change > 0 &&
+                            oiBuildup.PE_changeinOpenInterest < 0)
+                            ? "px-2 py-1 bg-red-200 text-red-600 rounded-md" // Green for uptrend
+                            : (oiBuildup.PE_change < 0 &&
+                                oiBuildup.PE_changeinOpenInterest > 0) ||
+                              (oiBuildup.PE_change < 0 &&
+                                oiBuildup.PE_changeinOpenInterest < 0)
+                            ? "px-2 py-1 bg-green-200 text-green-600 rounded-md" // Red for downtrend
+                            : "bg-gray-500"
+                        }`}
+                      >
+                        <span className="text-xs font-semibold">
+                          {(oiBuildup.PE_change > 0 &&
+                            oiBuildup.PE_changeinOpenInterest > 0) ||
+                          (oiBuildup.PE_change > 0 &&
+                            oiBuildup.PE_changeinOpenInterest < 0) ? (
+                            <span>
+                              <ArrowDownIcon className="w-4 h-4 inline-block mr-1" />
+                              Down Trend
+                            </span>
+                          ) : (oiBuildup.PE_change < 0 &&
+                              oiBuildup.PE_changeinOpenInterest > 0) ||
+                            (oiBuildup.PE_change < 0 &&
+                              oiBuildup.PE_changeinOpenInterest < 0) ? (
+                            <span>
+                              <ArrowUpIcon className="w-4 h-4 inline-block mr-1" />
+                              Up Trend
+                            </span>
+                          ) : (
+                            "--"
+                          )}
+                        </span>
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+              return null;
+            })}
+          </TableBody>
+        )}
+      </Table>
+      {oiBuildup.length === 0 && (
+        <div className="mx-10 h-[60vh] shadow-none my-10">
+          <div className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl font-semibold">
+            <span>Select Index and </span>
+            <span className="text-primary"> Exp. Date </span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default OiBuildup;
