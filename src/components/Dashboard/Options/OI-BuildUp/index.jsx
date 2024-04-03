@@ -536,7 +536,7 @@ const OiBuildup = () => {
                               (oiBuildup.PE_change < 0 &&
                                 oiBuildup.PE_changeinOpenInterest < 0)
                             ? "px-2 py-1 bg-green-200 text-green-600 rounded-md" // Red for downtrend
-                            : "bg-gray-500"
+                            : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md"
                         }`}
                       >
                         <span className="text-xs font-semibold">

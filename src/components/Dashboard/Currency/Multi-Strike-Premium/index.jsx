@@ -39,6 +39,9 @@ import {
 } from "recharts";
 import { cn } from "@/lib/utils";
 import { Timearray, sortByDateTime } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { SelectDateCard } from "@/components/SelectDateCard";
+
 const MaxPain = () => {
   //////////////////////////////////////
   const [ce1, setCe1] = useState(null);
@@ -444,12 +447,12 @@ const MaxPain = () => {
     );
 
   return (
-    <div className="lg:space-y-4 mb-5">
-      <Card className="w-full">
-        <div className="p-5  md:justify-between justify-center items-center flex md:flex-row flex-col">
-          <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
+    <>
+      <div className="w-full h-fit xl:pr-5 px-3 xl:px-0">
+        <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
+          <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
             <Select onValueChange={setSelectedIndex}>
-              <SelectTrigger className="md:w-[160px] w-[300px]">
+              <SelectTrigger className="md:w-[180px] w-[300px]">
                 <SelectValue placeholder="USD INR" />
               </SelectTrigger>
               <SelectContent>
@@ -469,7 +472,7 @@ const MaxPain = () => {
               </SelectContent>
             </Select>
             <Select onValueChange={setSelected}>
-              <SelectTrigger className="md:w-[180px] w-[300px]">
+              <SelectTrigger className="md:w-[200px] w-[300px]">
                 <SelectValue placeholder="Select an Exp. Date" />
               </SelectTrigger>
               <SelectContent>
@@ -496,275 +499,260 @@ const MaxPain = () => {
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
+      <Separator />
 
-      <Card className="w-full">
-        <div className="p-5 md:justify-between justify-center items-center flex flex-col xl:flex-row space-y-2 xl:space-y-0">
-          <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
-            <Select onValueChange={ceStrike1}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="CE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={ceStrike2}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="CE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={ceStrike3}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="CE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex md:flex-row flex-col md:space-x-4  space-y-2 md:space-y-0">
-            <Select onValueChange={peStrike1}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="PE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={peStrike2}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="PE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={peStrike3}>
-              <SelectTrigger className="md:w-[120px] w-[300px]">
-                <SelectValue placeholder="PE Strike" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Strikes</SelectLabel>
-                  {strikes.map((strike) => (
-                    <SelectItem key={strike} value={strike}>
-                      {strike}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button
-            variant="default"
-            size="icon"
-            onClick={fetchOI}
-            className="w-[300px] md:w-10"
-          >
-            <ArrowRight size={18} />
-          </Button>
+      <div className=" w-full py-5 md:justify-between justify-center items-center flex flex-col xl:flex-row space-y-2 xl:space-y-0">
+        <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
+          <Select onValueChange={ceStrike1}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="CE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={ceStrike2}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="CE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={ceStrike3}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="CE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
-      </Card>
+        <div className="flex md:flex-row flex-col md:space-x-4  space-y-2 md:space-y-0">
+          <Select onValueChange={peStrike1}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="PE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={peStrike2}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="PE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={peStrike3}>
+            <SelectTrigger className="md:w-[120px] w-[300px]">
+              <SelectValue placeholder="PE Strike" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Strikes</SelectLabel>
+                {strikes.map((strike) => (
+                  <SelectItem key={strike} value={strike}>
+                    {strike}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button
+          variant="default"
+          size="icon"
+          onClick={fetchOI}
+          className="w-[300px] md:w-10 md:px-0 mx-5"
+        >
+          <ArrowRight size={18} />
+        </Button>
+      </div>
 
-      <Card className="pb-5 h-fit">
-        <div className="flex justify-center items-center flex-col space-y-6 py-6">
-          <h2 className="text-base font-bold">Change in Premium</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {dataLoaded === false ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={dataArray}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis
-                    tick={{ fontSize: 12 }}
-                    domain={[MinOIchange, MaxOIchange]}
-                  />
-                  <Tooltip content={CustomTooltip} />
-                  <Legend content={CustomLegend} />
-                  <ReferenceLine
-                    y={0}
-                    stroke="gray"
-                    strokeWidth={1.5}
-                    strokeDasharray="3 3"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CE1oichange"
-                    stroke="#8884d8"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CE2oichange"
-                    stroke="#888444"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CE3oichange"
-                    stroke="#44d888"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE1oichange"
-                    stroke="#d88844"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE2oichange"
-                    stroke="#44d8d8"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE3oichange"
-                    stroke="#d8d844"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-          <h2 className="text-base font-bold">Overall Premium</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {dataLoaded === false ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={dataArray}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} domain={[0, MaxOI + 0.05]} />
-                  <Tooltip content={CustomTooltip} />
-                  <Legend content={CustomLegend} />
-                  <Line
-                    type="monotone"
-                    dataKey="CE1oi"
-                    stroke="#8884d8"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CE2oi"
-                    stroke="#888444"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="CE3oi"
-                    stroke="#44d888"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE1oi"
-                    stroke="#d88844"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE2oi"
-                    stroke="#44d8d8"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="PE3oi"
-                    stroke="#d8d844"
-                    dot={false}
-                    strokeWidth={1.5}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </div>
+      <Separator />
+
+      <div className="flex justify-center items-center flex-col space-y-6 py-5 mb-5">
+        <h2 className="text-base font-bold">Change in Premium</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {dataLoaded === false ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={dataArray}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <YAxis
+                  tick={{ fontSize: 12 }}
+                  domain={[MinOIchange, MaxOIchange]}
+                />
+                <Tooltip content={CustomTooltip} />
+                <Legend content={CustomLegend} />
+                <ReferenceLine
+                  y={0}
+                  stroke="gray"
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="CE1oichange"
+                  stroke="#8884d8"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="CE2oichange"
+                  stroke="#888444"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="CE3oichange"
+                  stroke="#44d888"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE1oichange"
+                  stroke="#d88844"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE2oichange"
+                  stroke="#44d8d8"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE3oichange"
+                  stroke="#d8d844"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
-      </Card>
-    </div>
+        <h2 className="text-base font-bold">Overall Premium</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {dataLoaded === false ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={dataArray}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} domain={[0, MaxOI + 0.05]} />
+                <Tooltip content={CustomTooltip} />
+                <Legend content={CustomLegend} />
+                <Line
+                  type="monotone"
+                  dataKey="CE1oi"
+                  stroke="#8884d8"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="CE2oi"
+                  stroke="#888444"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="CE3oi"
+                  stroke="#44d888"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE1oi"
+                  stroke="#d88844"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE2oi"
+                  stroke="#44d8d8"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="PE3oi"
+                  stroke="#d8d844"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 export default MaxPain;

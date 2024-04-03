@@ -37,8 +37,10 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import { cn } from "@/lib/utils";
 import { Timearray, sortByDateTime } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { SelectDateCard } from "@/components/SelectDateCard";
+
 const MaxPain = () => {
   //////////////////////////////////////
   const [ce1, setCe1] = useState(null);
@@ -444,12 +446,12 @@ const MaxPain = () => {
     );
 
   return (
-    <div className="lg:space-y-4 mb-5">
-      <Card className="w-full">
-        <div className="p-5  md:justify-between justify-center items-center flex md:flex-row flex-col">
-          <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
+    <>
+      <div className="w-full h-fit xl:pr-5 px-3 xl:px-0">
+        <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
+          <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
             <Select onValueChange={setSelectedIndex}>
-              <SelectTrigger className="md:w-[160px] w-[300px]">
+              <SelectTrigger className="md:w-[180px] w-[300px]">
                 <SelectValue placeholder="USD INR" />
               </SelectTrigger>
               <SelectContent>
@@ -469,7 +471,7 @@ const MaxPain = () => {
               </SelectContent>
             </Select>
             <Select onValueChange={setSelected}>
-              <SelectTrigger className="md:w-[180px] w-[300px]">
+              <SelectTrigger className="md:w-[200px] w-[300px]">
                 <SelectValue placeholder="Select an Exp. Date" />
               </SelectTrigger>
               <SelectContent>
@@ -496,10 +498,12 @@ const MaxPain = () => {
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
 
-      <Card className="w-full">
-        <div className="p-5 md:justify-between justify-center items-center flex flex-col xl:flex-row space-y-2 xl:space-y-0">
+      <Separator />
+
+      <div className="w-full">
+        <div className="py-5 md:justify-between justify-center items-center flex flex-col xl:flex-row space-y-2 xl:space-y-0">
           <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
             <Select onValueChange={ceStrike1}>
               <SelectTrigger className="md:w-[120px] w-[300px]">
@@ -598,26 +602,21 @@ const MaxPain = () => {
             variant="default"
             size="icon"
             onClick={fetchOI}
-            className="w-[300px] md:w-10"
+            className="w-[300px] md:w-10 mx-5"
           >
             <ArrowRight size={18} />
           </Button>
         </div>
-      </Card>
+      </div>
 
-      <Card className="pb-5 h-fit">
-        <div className="flex justify-center items-center flex-col space-y-6 py-6">
+      <Separator />
+
+      <div className=" h-fit">
+        <div className="flex justify-center items-center flex-col space-y-6 py-5">
           <h2 className="text-base font-bold">Change in OI</h2>{" "}
           <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
             {dataLoaded === false ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
+              <SelectDateCard />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
@@ -692,14 +691,7 @@ const MaxPain = () => {
           <h2 className="text-base font-bold">Overall OI</h2>{" "}
           <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
             {dataLoaded === false ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
+              <SelectDateCard />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
@@ -763,8 +755,8 @@ const MaxPain = () => {
             )}
           </div>
         </div>
-      </Card>
-    </div>
+      </div>
+    </>
   );
 };
 export default MaxPain;

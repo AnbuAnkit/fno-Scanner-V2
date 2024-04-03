@@ -233,6 +233,7 @@ const MaxPain = () => {
           </div>
         </div>
       </div>
+
       <Separator />
 
       <div className="flex justify-center items-center flex-col space-y-6 py-5">

@@ -1,5 +1,4 @@
 "use client";
-import { Card, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -34,6 +33,8 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import { Separator } from "@/components/ui/separator";
+import { SelectDateCard } from "@/components/SelectDateCard";
 
 const MaxPain = () => {
   const [priceRange, setPriceRange] = useState(2);
@@ -141,285 +142,255 @@ const MaxPain = () => {
     );
 
   return (
-    <div className="lg:space-y-4 lg:mb-5">
-      <Card className="w-full justify-center">
-        <div className="p-5 w-full flex flex-col md:flex-row md:justify-between justify-center items-center">
-          <div className="flex md:flex-row flex-col md:space-x-4 space-y-2 md:space-y-0">
-            <Select onValueChange={setSelectedIndex}>
-              <SelectTrigger className="md:w-[160px] w-[300px]">
-                <SelectValue placeholder="USD INR" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Currency</SelectLabel>
-                  <SelectItem value="usdinr">USD INR</SelectItem>
-                  <SelectItem value="eurinr" disabled>
-                    EUR INR
+    <div className="w-full h-fit xl:pr-5 pb-5 px-3 xl:px-0">
+      <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
+        <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
+          <Select onValueChange={setSelectedIndex}>
+            <SelectTrigger className="md:w-[180px] w-[300px]">
+              <SelectValue placeholder="USD INR" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Currency</SelectLabel>
+                <SelectItem value="usdinr">USD INR</SelectItem>
+                <SelectItem value="eurinr" disabled>
+                  EUR INR
+                </SelectItem>
+                <SelectItem value="gbpinr" disabled>
+                  GBP INR
+                </SelectItem>
+                <SelectItem value="jpyinr" disabled>
+                  JPY INR
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={fetchOI}>
+            <SelectTrigger className="md:w-[200px] w-[300px]">
+              <SelectValue placeholder="Select an Exp. Date" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Exp. Date</SelectLabel>
+                {dates.map((date) => (
+                  <SelectItem key={date.expiryDate} value={date.expiryDate}>
+                    {date.expiryDate}{" "}
                   </SelectItem>
-                  <SelectItem value="gbpinr" disabled>
-                    GBP INR
-                  </SelectItem>
-                  <SelectItem value="jpyinr" disabled>
-                    JPY INR
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={fetchOI}>
-              <SelectTrigger className="md:w-[180px] w-[300px]">
-                <SelectValue placeholder="Select an Exp. Date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Exp. Date</SelectLabel>
-                  {dates.map((date) => (
-                    <SelectItem key={date.expiryDate} value={date.expiryDate}>
-                      {date.expiryDate}{" "}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setStrikeRange}>
-              <SelectTrigger className="md:w-[140px] w-[300px]">
-                <SelectValue placeholder="No. of Strikes" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="11">10</SelectItem>
-                  <SelectItem value="16">15</SelectItem>
-                  <SelectItem value="21">20</SelectItem>
-                  <SelectItem value="31">30</SelectItem>
-                  <SelectItem value="41">40</SelectItem>
-                  <SelectItem value="51">50</SelectItem>
-                  <SelectItem value="61">ALL</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <div className="space-x-5 lg:flex flex-row text-gray-600 text-xs font-semibold hidden">
-              <div className="py-3">
-                SPOT Price:{" "}
-                <span className="text-blue-500">{currentPrice}</span>{" "}
-              </div>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={setStrikeRange}>
+            <SelectTrigger className="md:w-[140px] w-[300px]">
+              <SelectValue placeholder="No. of Strikes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="11">10</SelectItem>
+                <SelectItem value="16">15</SelectItem>
+                <SelectItem value="21">20</SelectItem>
+                <SelectItem value="31">30</SelectItem>
+                <SelectItem value="41">40</SelectItem>
+                <SelectItem value="51">50</SelectItem>
+                <SelectItem value="61">ALL</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <div className="space-x-5 lg:flex flex-row text-gray-600 text-xs font-semibold hidden">
+            <div className="py-3">
+              SPOT Price: <span className="text-blue-500">{currentPrice}</span>{" "}
             </div>
           </div>
+        </div>
 
-          <div className="md:mt-0 mt-2">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={fetchAll}
-              className="w-[300px] md:w-10"
-            >
-              <RefreshCw size={18} className="text-gray-600" />
-            </Button>
-          </div>
+        <div className="md:mt-0 mt-2">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={fetchAll}
+            className="w-[300px] md:w-10"
+          >
+            <RefreshCw size={18} className="text-gray-600" />
+          </Button>
         </div>
-      </Card>
-      <Card className="h-fit">
-        <div className="flex justify-center items-center flex-col space-y-6 py-6 mb-5">
-          <h2 className="text-base font-bold">Open-Intrests</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {optionChain.length === 0 ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={filteredOptionChain}
-                  margin={{
-                    top: 40,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
+      </div>
+
+      <Separator />
+
+      <div className="flex justify-center items-center flex-col space-y-6 py-5">
+        <h2 className="text-base font-bold">Open-Intrests</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {optionChain.length === 0 ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={filteredOptionChain}
+                margin={{
+                  top: 40,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip content={renderTooltip} />
+                <Legend content={renderLegend} />
+                <Bar dataKey="CE_OI" fill="#17A589" />
+                <Bar dataKey="PE_OI" fill="#EC7063" />
+                <ReferenceLine
+                  x={atm}
+                  stroke="gray"
+                  strokeDasharray="5 5"
+                  label={{
+                    value: `Current ATM: ${atm}`,
+                    position: "top",
+                    fill: "Gray",
+                    fontSize: "12px",
                   }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip content={renderTooltip} />
-                  <Legend content={renderLegend} />
-                  <Bar dataKey="CE_OI" fill="#17A589" />
-                  <Bar dataKey="PE_OI" fill="#EC7063" />
-                  <ReferenceLine
-                    x={atm}
-                    stroke="gray"
-                    strokeDasharray="5 5"
-                    label={{
-                      value: `Current ATM: ${atm}`,
-                      position: "top",
-                      fill: "Gray",
-                      fontSize: "12px",
-                    }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-          <h2 className="text-base font-bold">Open-Intrests * LTP</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {optionChain.length === 0 ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={filteredOptionChain}
-                  margin={{
-                    top: 40,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip content={TooltipforOILTP} />
-                  <Legend content={LegendforOILTP} />
-                  <Bar dataKey="CEOILTP" fill="#17A589" className="w-[5px]" />
-                  <Bar dataKey="PEOILTP" fill="#EC7063" className="w-[5px]" />
-                  <ReferenceLine
-                    x={atm}
-                    stroke="gray"
-                    strokeDasharray="5 5"
-                    label={{
-                      value: `Current ATM: ${atm}`,
-                      position: "top",
-                      fill: "Gray",
-                      fontSize: "12px",
-                    }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-          <h2 className="text-base font-bold">Change in Open-Intrests</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {optionChain.length === 0 ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={filteredOptionChain}
-                  margin={{
-                    top: 40,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip content={renderTooltipChangeOI} />
-                  <Legend content={renderLegendChangeOI} />
-                  <Bar
-                    dataKey="CE_changeinOpenInterest"
-                    fill="#17A589"
-                    className="w-[5px]"
-                  />
-                  <Bar
-                    dataKey="PE_changeinOpenInterest"
-                    fill="#EC7063"
-                    className="w-[5px]"
-                  />
-                  <ReferenceLine
-                    x={atm}
-                    stroke="gray"
-                    strokeDasharray="5 5"
-                    label={{
-                      value: `Current ATM: ${atm}`,
-                      position: "top",
-                      fill: "Gray",
-                      fontSize: "12px",
-                    }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-          <h2 className="text-base font-bold">Change in Open-Intrests * LTP</h2>{" "}
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {optionChain.length === 0 ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Select Index and </span>
-                    <span className="text-primary"> Exp. Date </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={filteredOptionChain}
-                  margin={{
-                    top: 40,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip content={TooltipforOIChangeLTP} />
-                  <Legend content={LegendforOIChangeLTP} />
-                  <Bar
-                    dataKey="CEChangeOILTP"
-                    fill="#17A589"
-                    className="w-[5px]"
-                  />
-                  <Bar
-                    dataKey="PEChangeOILTP"
-                    fill="#EC7063"
-                    className="w-[5px]"
-                  />
-                  <ReferenceLine
-                    x={atm}
-                    stroke="gray"
-                    strokeDasharray="5 5"
-                    label={{
-                      value: `Current ATM: ${atm}`,
-                      position: "top",
-                      fill: "Gray",
-                      fontSize: "12px",
-                    }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </div>
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </div>
-      </Card>
+        <h2 className="text-base font-bold">Open-Intrests * LTP</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {optionChain.length === 0 ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={filteredOptionChain}
+                margin={{
+                  top: 40,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip content={TooltipforOILTP} />
+                <Legend content={LegendforOILTP} />
+                <Bar dataKey="CEOILTP" fill="#17A589" className="w-[5px]" />
+                <Bar dataKey="PEOILTP" fill="#EC7063" className="w-[5px]" />
+                <ReferenceLine
+                  x={atm}
+                  stroke="gray"
+                  strokeDasharray="5 5"
+                  label={{
+                    value: `Current ATM: ${atm}`,
+                    position: "top",
+                    fill: "Gray",
+                    fontSize: "12px",
+                  }}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+        <h2 className="text-base font-bold">Change in Open-Intrests</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {optionChain.length === 0 ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={filteredOptionChain}
+                margin={{
+                  top: 40,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip content={renderTooltipChangeOI} />
+                <Legend content={renderLegendChangeOI} />
+                <Bar
+                  dataKey="CE_changeinOpenInterest"
+                  fill="#17A589"
+                  className="w-[5px]"
+                />
+                <Bar
+                  dataKey="PE_changeinOpenInterest"
+                  fill="#EC7063"
+                  className="w-[5px]"
+                />
+                <ReferenceLine
+                  x={atm}
+                  stroke="gray"
+                  strokeDasharray="5 5"
+                  label={{
+                    value: `Current ATM: ${atm}`,
+                    position: "top",
+                    fill: "Gray",
+                    fontSize: "12px",
+                  }}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+        <h2 className="text-base font-bold">Change in Open-Intrests * LTP</h2>{" "}
+        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+          {optionChain.length === 0 ? (
+            <SelectDateCard />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={filteredOptionChain}
+                margin={{
+                  top: 40,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="strikePrice" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip content={TooltipforOIChangeLTP} />
+                <Legend content={LegendforOIChangeLTP} />
+                <Bar
+                  dataKey="CEChangeOILTP"
+                  fill="#17A589"
+                  className="w-[5px]"
+                />
+                <Bar
+                  dataKey="PEChangeOILTP"
+                  fill="#EC7063"
+                  className="w-[5px]"
+                />
+                <ReferenceLine
+                  x={atm}
+                  stroke="gray"
+                  strokeDasharray="5 5"
+                  label={{
+                    value: `Current ATM: ${atm}`,
+                    position: "top",
+                    fill: "Gray",
+                    fontSize: "12px",
+                  }}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

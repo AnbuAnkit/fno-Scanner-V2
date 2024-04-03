@@ -34,7 +34,6 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import { cn } from "@/lib/utils";
 import { Timearray, sortByDateTime } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { SelectDateCard } from "@/components/SelectDateCard";
@@ -492,6 +491,7 @@ const MaxPain = () => {
           </div>
         </div>
       </div>
+
       <Separator />
 
       <div className="w-full">

@@ -11,8 +11,6 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import {
   Select,
   SelectContent,
@@ -125,303 +123,287 @@ const OptionChain = () => {
   }
 
   return (
-    <div className=" lg:mb-10 ">
-      <Card className="w-full h-fit ">
-        <div className=" flex md:flex-row flex-col justify-between items-center mt-3 bg-white ">
-          <div className="flex md:flex-row flex-col items-center">
-            <div className="md:p-2 md:ml-3 my-1">
-              <Select onValueChange={setSelectedIndex}>
-                <SelectTrigger className="md:w-[180px] w-[300px]">
-                  <SelectValue placeholder="USD INR" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Currency</SelectLabel>
-                    <SelectItem value="usdinr">USD INR</SelectItem>
-                    <SelectItem value="eurinr" disabled>
-                      EUR INR
-                    </SelectItem>
-                    <SelectItem value="jpyinr" disabled>
-                      JPY INR
-                    </SelectItem>
-                    <SelectItem value="gbpinr" disabled>
-                      {" "}
-                      GBP INR
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="md:p-2 my-1">
-              <Select onValueChange={fetchOptionChain}>
-                <SelectTrigger className="md:w-[200px] w-[300px]">
-                  <SelectValue placeholder="Select an Exp. Date" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Exp. Date</SelectLabel>
-                    {dates.map((date) => (
-                      <SelectItem key={date.expiryDate} value={date.expiryDate}>
-                        {date.expiryDate}{" "}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="md:p-2 md:mr-3 my-1">
-              <Select onValueChange={setStrikeRange}>
-                <SelectTrigger className="md:w-[140px] w-[300px] ">
-                  <SelectValue placeholder="No. of Strikes" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="11">10</SelectItem>
-                    <SelectItem value="16">15</SelectItem>
+    <div className="w-full h-fit xl:pr-5 pb-5 px-3 xl:px-0">
+      <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
+        <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
+          <Select onValueChange={setSelectedIndex}>
+            <SelectTrigger className="md:w-[180px] w-[300px]">
+              <SelectValue placeholder="USD INR" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Currency</SelectLabel>
+                <SelectItem value="usdinr">USD INR</SelectItem>
+                <SelectItem value="eurinr" disabled>
+                  EUR INR
+                </SelectItem>
+                <SelectItem value="jpyinr" disabled>
+                  JPY INR
+                </SelectItem>
+                <SelectItem value="gbpinr" disabled>
+                  GBP INR
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-                    <SelectItem value="21">20</SelectItem>
-                    <SelectItem value="31">30</SelectItem>
-                    <SelectItem value="41">40</SelectItem>
-                    <SelectItem value="51">50</SelectItem>
-                    <SelectItem value="61">ALL</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-x-5 lg:flex flex-row text-gray-600 text-xs font-semibold hidden ">
-              <div className="">
-                SPOT Price:{" "}
-                <span className="text-blue-500">{currentPrice}</span>{" "}
-              </div>
-            </div>
-          </div>
-          <div className="md:mr-5 my-1 md:pt-2">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={refresh}
-              className="w-[300px] md:w-10"
-            >
-              <RefreshCw size={18} className="text-gray-600" />
-            </Button>
+          <Select onValueChange={fetchOptionChain}>
+            <SelectTrigger className="md:w-[200px] w-[300px]">
+              <SelectValue placeholder="Select an Exp. Date" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Exp. Date</SelectLabel>
+                {dates.map((date) => (
+                  <SelectItem key={date.expiryDate} value={date.expiryDate}>
+                    {date.expiryDate}{" "}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <Select onValueChange={setStrikeRange}>
+            <SelectTrigger className="md:w-[140px] w-[300px] ">
+              <SelectValue placeholder="No. of Strikes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="11">10</SelectItem>
+                <SelectItem value="16">15</SelectItem>
+                <SelectItem value="21">20</SelectItem>
+                <SelectItem value="31">30</SelectItem>
+                <SelectItem value="41">40</SelectItem>
+                <SelectItem value="51">50</SelectItem>
+                <SelectItem value="61">ALL</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <div className="space-x-5 lg:block text-gray-600 text-xs font-semibold hidden ">
+            SPOT Price: <span className="text-blue-500">{currentPrice}</span>
           </div>
         </div>
-        <div className="px-5 pb-5 pt-3">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-
-                <TableHead className="text-center text-xs bg-gray-50 font-bold  text-green-500">
-                  CALL
-                </TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-
-                <TableHead className="text-center text-xs bg-gray-50 font-bold  text-red-500">
-                  PUT
-                </TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-                <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
-              </TableRow>
-              <TableRow>
-                <TableHead className="text-center text-xs font-semibold  bg-green-200">
-                  OI
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-green-200">
-                  CHG IN OI
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-green-200">
-                  VOLUME
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-green-200">
-                  IV
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-green-200">
-                  LTP CHG.
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-green-200">
-                  LTP
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-yellow-100 border-b-[0.5px] border-x-[0.5px]">
-                  STRIKE
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  LTP
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  LTP CHG.
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  IV
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  VOLUME
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  CHG IN OI
-                </TableHead>
-                <TableHead className="text-center  text-xs font-semibold bg-red-200">
-                  OI
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            {optionchain.length > 0 && (
-              <TableBody>
-                {optionchain.map((optionChain) => {
-                  const strikePrice = parseFloat(optionChain.strikePrice);
-                  const priceDifference = Math.abs(strikePrice - currentPrice);
-
-                  if (priceDifference <= priceRange) {
-                    return (
-                      <TableRow
-                        className="hover:bg-amber-100 text-xs"
-                        key={optionChain.strikePrice}
-                      >
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.CE_OI}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.CE_changeinOpenInterest}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.CE_totalTradedVolume}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {parseFloat(optionChain.CE_impliedVolatility).toFixed(
-                            2
-                          )}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${getColorBasedOnValue(
-                            parseFloat(optionChain.CE_change)
-                          )} ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {parseFloat(optionChain.CE_change).toFixed(2)}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) < currentPrice
-                              ? "bg-green-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.CE_lastPrice}
-                        </TableCell>
-                        <TableCell className="text-center hover:bg-amber-100 font-semibold bg-yellow-50">
-                          {optionChain.strikePrice}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center  hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.PE_lastPrice}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${getColorBasedOnValue(
-                            parseFloat(optionChain.PE_change)
-                          )} ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {parseFloat(optionChain.PE_change).toFixed(2)}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {parseFloat(optionChain.PE_impliedVolatility).toFixed(
-                            2
-                          )}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.PE_totalTradedVolume}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.PE_changeinOpenInterest}
-                        </TableCell>
-                        <TableCell
-                          className={`text-center hover:bg-amber-100 ${
-                            parseFloat(optionChain.strikePrice) > currentPrice
-                              ? "bg-red-100"
-                              : ""
-                          }`}
-                        >
-                          {optionChain.PE_OI}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }
-                  return null;
-                })}
-              </TableBody>
-            )}
-          </Table>
+        <div className="md:mr-5 my-1 md:pt-2">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={refresh}
+            className="w-[300px] md:w-10"
+          >
+            <RefreshCw size={18} className="text-gray-600" />
+          </Button>
         </div>
-        {optionchain.length === 0 && (
-          <Card className="mx-10 h-[60vh] shadow-none mb-12">
-            <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-              <span>Select Index and </span>
-              <span className="text-primary"> Exp. Date </span>
-            </CardTitle>
-          </Card>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 font-bold  text-green-500">
+              CALL
+            </TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+
+            <TableHead className="text-center text-xs bg-gray-50 font-bold  text-red-500">
+              PUT
+            </TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+            <TableHead className="text-center text-xs bg-gray-50 "></TableHead>
+          </TableRow>
+          <TableRow>
+            <TableHead className="text-center text-xs font-semibold  bg-green-200">
+              OI
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              CHG IN OI
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              VOLUME
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              IV
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              LTP CHG.
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-green-200">
+              LTP
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-yellow-100 border-b-[0.5px] border-x-[0.5px]">
+              STRIKE
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              LTP
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              LTP CHG.
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              IV
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              VOLUME
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              CHG IN OI
+            </TableHead>
+            <TableHead className="text-center  text-xs font-semibold bg-red-200">
+              OI
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        {optionchain.length > 0 && (
+          <TableBody>
+            {optionchain.map((optionChain) => {
+              const strikePrice = parseFloat(optionChain.strikePrice);
+              const priceDifference = Math.abs(strikePrice - currentPrice);
+
+              if (priceDifference <= priceRange) {
+                return (
+                  <TableRow
+                    className="hover:bg-amber-100 text-xs"
+                    key={optionChain.strikePrice}
+                  >
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.CE_OI}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.CE_changeinOpenInterest}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.CE_totalTradedVolume}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {parseFloat(optionChain.CE_impliedVolatility).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${getColorBasedOnValue(
+                        parseFloat(optionChain.CE_change)
+                      )} ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {parseFloat(optionChain.CE_change).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) < currentPrice
+                          ? "bg-green-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.CE_lastPrice}
+                    </TableCell>
+                    <TableCell className="text-center hover:bg-amber-100 font-semibold bg-yellow-50">
+                      {optionChain.strikePrice}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center  hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.PE_lastPrice}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${getColorBasedOnValue(
+                        parseFloat(optionChain.PE_change)
+                      )} ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {parseFloat(optionChain.PE_change).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {parseFloat(optionChain.PE_impliedVolatility).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.PE_totalTradedVolume}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.PE_changeinOpenInterest}
+                    </TableCell>
+                    <TableCell
+                      className={`text-center hover:bg-amber-100 ${
+                        parseFloat(optionChain.strikePrice) > currentPrice
+                          ? "bg-red-100"
+                          : ""
+                      }`}
+                    >
+                      {optionChain.PE_OI}
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+              return null;
+            })}
+          </TableBody>
         )}
-      </Card>
+      </Table>
+      {optionchain.length === 0 && (
+        <div className="mx-10 h-[60vh] shadow-none my-10">
+          <div className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl font-semibold">
+            <span>Select Index and </span>
+            <span className="text-primary"> Exp. Date </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
