@@ -1,5 +1,4 @@
 "use client";
-import { Card, CardTitle } from "@/components/ui/card";
 
 import {
   TableHead,
@@ -33,6 +32,12 @@ import {
 import { domain } from "@/lib/url";
 import { useSelector } from "react-redux";
 import { sortByDateTime } from "@/lib/utils";
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ArrowDownLeftIcon,
+  ArrowUpLeftIcon,
+} from "@/components/Icon/Arrow";
 
 const OiBuildup = () => {
   const [index, setIndex] = useState("usdinr");
