@@ -2,7 +2,7 @@ import React from "react";
 import OiAnalysis from "@/components/Dashboard/Options/OI-Analysis";
 
 export const metadata = {
-  title: "OI-Analysis",
+  title: "OI Analysis",
 };
 
 const page = () => {
