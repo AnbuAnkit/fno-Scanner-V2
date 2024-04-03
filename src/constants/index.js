@@ -91,7 +91,7 @@ const optionsSideBar = [
   },
   {
     href: "/dashboard/options/multi-strike-premium",
-    label: "Multi Strike-Premium",
+    label: "Multi Strike Premium",
     icon: (
       <LiaChartLineSolid
         size={size}
@@ -165,7 +165,7 @@ const currencySideBar = [
   },
   {
     href: "/dashboard/currency/multi-strike-premium",
-    label: "Multi Strike-Premium",
+    label: "Multi Strike Premium",
     icon: (
       <LiaChartLineSolid
         size={size}
