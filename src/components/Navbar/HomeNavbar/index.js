@@ -8,7 +8,7 @@ import SheetComponent from "./SheetComponent";
 
 const index = () => {
   return (
-    <nav className="sticky top-0 z-10 bg-background flex flex-row justify-between items-center border-b px-10 py-2">
+    <nav className="sticky top-0 z-10 bg-background flex flex-row justify-between items-center border-b sm:px-10 px-5 py-2">
       <div className="flex flex-row items-center space-x-5">
         <SheetComponent />
         <Logo />
