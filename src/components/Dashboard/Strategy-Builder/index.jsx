@@ -1,7 +1,5 @@
 "use client";
-import CommingSoon from "@/components/CommingSoon";
 import * as React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   TableHead,
   TableRow,
@@ -10,7 +8,6 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import {
@@ -34,24 +31,22 @@ import { useSelector } from "react-redux";
 import { domain } from "@/lib/url";
 import {
   ComposedChart,
-  AreaChart,
   Area,
-  LineChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
 import { Separator } from "@/components/ui/separator";
-import { ProbabilityOfTouch, OptionPrice } from "@/lib/Maths/Formula";
+import { OptionPrice } from "@/lib/Maths/Formula";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NoOfDaysForExpiry } from "@/lib/date";
 import greeks from "greeks";
 import { nanoid } from "nanoid";
+import Logo from "@/components/Icon/Logo";
 
 const buy = "buy";
 const sell = "sell";
@@ -768,266 +763,250 @@ const OptionChain = () => {
 
   return (
     <>
-      <Tabs defaultValue="builder" className="w-full lg:px-10 ">
-        <TabsList className=" grid lg:w-[450px] w-full grid-cols-2 my-2 lg:mb-5 ">
-          <TabsTrigger value="builder">Builder</TabsTrigger>
-          <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-        </TabsList>
-        <TabsContent value="builder">
-          <Separator className=" my-2 bg-slate-200" />
-          <div className="px-10 flex flex-col md:flex-row md:justify-between justify-center items-center bg-whitep pt-3 pb-5">
-            <div className="flex flex-row items-center md:space-x-3 pb-2 md:p-0">
-              <Button
-                onClick={toggleDrawer}
-                variant="default"
-                size="lg"
-                className="w-[300px] md:w-40"
-              >
-                Option Chain
-              </Button>
+      <div className="px-10 flex flex-col md:flex-row md:justify-between justify-center items-center bg-whitep py-5">
+        <div className="flex flex-row items-center md:space-x-3 pb-2 md:p-0">
+          <Button
+            onClick={toggleDrawer}
+            variant="default"
+            size="lg"
+            className="w-[300px] md:w-40"
+            x
+          >
+            Option Chain
+          </Button>
 
-              <div className="items-center text-xs hidden lg:flex">
-                SPOT Price:{" "}
-                <span className="text-blue-500">{currentPrice}</span>{" "}
-              </div>
-            </div>
-            <div className=" md:space-x-5 space-y-2 md:space-y-0 flex flex-col md:flex-row items-center ">
-              <Button
-                variant="outline"
-                onClick={() => ReSetGraph()}
-                className="w-[300px] md:w-40"
-              >
-                Re-Set Positions
-              </Button>
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={refresh}
-                className="w-[300px] md:w-10"
-              >
-                <RefreshCw size={18} className="text-gray-600" />
-              </Button>
+          <div className="items-center text-xs hidden lg:flex">
+            SPOT Price: <span className="text-blue-500">{currentPrice}</span>{" "}
+          </div>
+        </div>
+        <div className=" md:space-x-5 space-y-2 md:space-y-0 flex flex-col md:flex-row items-center ">
+          <Button
+            variant="outline"
+            onClick={() => ReSetGraph()}
+            className="w-[300px] md:w-40"
+          >
+            Re-Set Positions
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={refresh}
+            className="w-[300px] md:w-10"
+          >
+            <RefreshCw size={18} className="text-gray-600" />
+          </Button>
+        </div>
+      </div>
+      <div className="px-10 ">
+        <Separator />
+      </div>
+
+      <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full py-5 my-10">
+        {positions.length === 0 ? (
+          <div className="px-10 h-full w-full">
+            <div className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl font-semibold">
+              <span>Open Option-Chain and </span>
+              <span className="text-primary"> Build Strategy </span>
             </div>
           </div>
+        ) : (
+          <>
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart
+                data={dataArray}
+                margin={{
+                  right: 60,
+                  left: 20,
+                }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  // horizontal={false}
+                />
+                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
 
-          <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
-            {positions.length === 0 ? (
-              <div className="px-10 h-full w-full">
-                <Card className="px-10 h-full w-full">
-                  <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                    <span>Open Option-Chain and </span>
-                    <span className="text-primary"> Build Strategy </span>
-                  </CardTitle>
-                </Card>
-              </div>
-            ) : (
-              <>
-                <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart
-                    data={dataArray}
-                    margin={{
-                      right: 60,
-                      left: 20,
-                    }}
-                  >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      vertical={false}
-                      // horizontal={false}
-                    />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip content={<CustomTooltip />} />
+                <ReferenceLine y={0} stroke="black" strokeDasharray="4 4" />
+                <ReferenceLine
+                  x={parseInt(currentPrice)}
+                  stroke="green"
+                  strokeDasharray="4 4"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ProbofTouch"
+                  stroke="#204fe5"
+                  strokeWidth={1}
+                  dot={false}
+                  strokeDasharray="4 4"
+                />
+                <Area
+                  strokeWidth={1.5}
+                  type="monotone"
+                  dataKey="positiveExpiredOptionLine"
+                  stroke="#00C30D"
+                  fill="#00C30D"
+                  fillOpacity={0.2} // Adjust the opacity here
+                />
+                <Area
+                  strokeWidth={1.5}
+                  type="monotone"
+                  dataKey="negativeExpiredOptionLine"
+                  stroke="#FA5456"
+                  fill="#FA5456"
+                  fillOpacity={0.2} // Adjust the opacity here
+                />
+                <Line
+                  type="monotone"
+                  dataKey="liveOptionLine"
+                  stroke="#0081D0"
+                  strokeWidth={1.5}
+                  dot={false}
+                  // strokeDasharray="3 3"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
 
-                    <YAxis tick={{ fontSize: 12 }} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <ReferenceLine y={0} stroke="black" strokeDasharray="4 4" />
-                    <ReferenceLine
-                      x={parseInt(currentPrice)}
-                      stroke="green"
-                      strokeDasharray="4 4"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="ProbofTouch"
-                      stroke="#204fe5"
-                      strokeWidth={1}
-                      dot={false}
-                      strokeDasharray="4 4"
-                    />
-                    <Area
-                      strokeWidth={1.5}
-                      type="monotone"
-                      dataKey="positiveExpiredOptionLine"
-                      stroke="#00C30D"
-                      fill="#00C30D"
-                      fillOpacity={0.2} // Adjust the opacity here
-                    />
-                    <Area
-                      strokeWidth={1.5}
-                      type="monotone"
-                      dataKey="negativeExpiredOptionLine"
-                      stroke="#FA5456"
-                      fill="#FA5456"
-                      fillOpacity={0.2} // Adjust the opacity here
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="liveOptionLine"
-                      stroke="#0081D0"
-                      strokeWidth={1.5}
-                      dot={false}
-                      // strokeDasharray="3 3"
-                    />
-                  </ComposedChart>
-                </ResponsiveContainer>
-                <Separator className="my-10 bg-slate-200" />
+            <div className="p-10">
+              <Separator />
+            </div>
 
-                <div className="w-full space-x-2 pb-10">
-                  <Card className="w-full p-5 flex flex-col xl:flex-row ">
-                    <div className="xl:w-1/2 space-y-2 p-5 w-full">
-                      <div className="items-center font-semibold px-5">
-                        All Position
-                      </div>
-                      {positions.length > 0 &&
-                        positions.map((item) => (
-                          <Card
-                            key={item.id}
-                            className="w-full shadow-none rounded-sm p-5 flex justify-between items-center"
-                          >
-                            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-0 md:space-x-4">
-                              <div>
-                                <span className=" text-sm">
-                                  {item.index} {item.strikePrice}{" "}
-                                  {item.OptionType} {item.expiryDate} x
-                                  {item.nolot}
-                                </span>
-                              </div>
-                              <div className="flex justify-between items-center space-x-4">
-                                <span
-                                  className={`${
-                                    item.buyorSell == "buy"
-                                      ? " text-green-600"
-                                      : " text-red-500"
-                                  } text-xs font-semibold`}
-                                >
-                                  Entry Price : {item.entryPrice}
-                                </span>
-                                <span
-                                  className={`${
-                                    positions.length > 0 &&
-                                    item.buyorSell -
-                                      getCurrentPrice(
-                                        item.strikePrice,
-                                        item.OptionType
-                                      ) >=
-                                      0
-                                      ? " text-green-600"
-                                      : " text-red-500"
-                                  } text-xs font-semibold`}
-                                >
-                                  LTP :{" "}
-                                  {positions.length > 0 &&
-                                    getCurrentPrice(
-                                      item.strikePrice,
-                                      item.OptionType
-                                    )}
-                                </span>
-                              </div>
-                            </div>
-
-                            <button
-                              onClick={() => RemoveGraph(item)}
-                              className="text-red-500"
-                            >
-                              <Trash2 size={18} />
-                            </button>
-                          </Card>
-                        ))}
-                    </div>
-                    <div className="space-y-2 p-5 xl:w-1/2 w-full">
-                      <div className="items-center font-semibold px-5">
-                        Trade Details
-                      </div>
-                      <Card className="w-full h-80 shadow-none rounded-sm p-5 flex justify-between text-sm">
-                        <div className="flex flex-col space-y-3">
-                          <span>Prob. of Profit</span>
-                          <span>Net Credits</span>
-                          <span>Max. Profit</span>
-                          <span>Max. Loss</span>
-                          <span>Risk Reward Ratio</span>
-                          <span>PNL</span>
+            <div className="w-full p-5 flex flex-col xl:flex-row ">
+              <div className="xl:w-1/2 space-y-2 p-5 w-full">
+                <div className="items-center font-semibold px-5">
+                  All Position
+                </div>
+                {positions.length > 0 &&
+                  positions.map((item) => (
+                    <Card
+                      key={item.id}
+                      className="w-full shadow-none rounded-sm p-5 flex justify-between items-center"
+                    >
+                      <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-0 md:space-x-4">
+                        <div>
+                          <span className=" text-sm">
+                            {item.index} {item.strikePrice} {item.OptionType}{" "}
+                            {item.expiryDate} x{item.nolot}
+                          </span>
                         </div>
-                        <div className="flex flex-col space-y-3 ">
-                          <span>
-                            {credits(positions) > 0
-                              ? (100 - nearestOption.pop).toFixed(2)
-                              : parseFloat(nearestOption.pop).toFixed(2)}
-                            %
-                          </span>
-                          <span>
-                            {credits(positions) > 0 ? credits(positions) : 0}
-                          </span>
-                          <span className="font-semibold">
-                            {Math.max(...positiveExpiredOptionLine)}
-                          </span>
-                          <span className="font-semibold text-red-500">
-                            {Math.min(...negativeExpiredOptionLine)}
+                        <div className="flex justify-between items-center space-x-4">
+                          <span
+                            className={`${
+                              item.buyorSell == "buy"
+                                ? " text-green-600"
+                                : " text-red-500"
+                            } text-xs font-semibold`}
+                          >
+                            Entry Price : {item.entryPrice}
                           </span>
                           <span
                             className={`${
-                              parseFloat(
-                                returnPositiveValue(
-                                  Math.min(...negativeExpiredOptionLine) /
-                                    Math.max(...positiveExpiredOptionLine)
-                                )
-                              ).toFixed(2) >= 1
-                                ? "text-red-500 font-semibold"
-                                : "text-green-500"
-                            }`}
+                              positions.length > 0 &&
+                              item.buyorSell -
+                                getCurrentPrice(
+                                  item.strikePrice,
+                                  item.OptionType
+                                ) >=
+                                0
+                                ? " text-green-600"
+                                : " text-red-500"
+                            } text-xs font-semibold`}
                           >
+                            LTP :{" "}
                             {positions.length > 0 &&
-                              parseFloat(
-                                returnPositiveValue(
-                                  Math.min(...negativeExpiredOptionLine) /
-                                    Math.max(...positiveExpiredOptionLine)
-                                )
-                              ).toFixed(2)}
-                          </span>
-                          <span
-                            className={` ${
-                              PNLofTrade(positions) >= 0
-                                ? "text-green-500 font-semibold"
-                                : "text-red-500 "
-                            }`}
-                          >
-                            {PNLofTrade(positions)}
+                              getCurrentPrice(
+                                item.strikePrice,
+                                item.OptionType
+                              )}
                           </span>
                         </div>
-                      </Card>
-                    </div>
-                  </Card>
+                      </div>
+
+                      <button
+                        onClick={() => RemoveGraph(item)}
+                        className="text-red-500"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </Card>
+                  ))}
+              </div>
+              <div className="space-y-2 p-5 xl:w-1/2 w-full">
+                <div className="items-center font-semibold px-5">
+                  Trade Details
                 </div>
-              </>
-            )}
-          </div>
-        </TabsContent>
-        <TabsContent value="portfolio">
-          {" "}
-          <CommingSoon />
-        </TabsContent>
-      </Tabs>
+                <Card className="w-full h-80 shadow-none rounded-sm p-5 flex justify-between text-sm">
+                  <div className="flex flex-col space-y-3">
+                    <span>Prob. of Profit</span>
+                    <span>Net Credits</span>
+                    <span>Max. Profit</span>
+                    <span>Max. Loss</span>
+                    <span>Risk Reward Ratio</span>
+                    <span>PNL</span>
+                  </div>
+                  <div className="flex flex-col space-y-3 ">
+                    <span>
+                      {credits(positions) > 0
+                        ? (100 - nearestOption.pop).toFixed(2)
+                        : parseFloat(nearestOption.pop).toFixed(2)}
+                      %
+                    </span>
+                    <span>
+                      {credits(positions) > 0 ? credits(positions) : 0}
+                    </span>
+                    <span className="font-semibold">
+                      {Math.max(...positiveExpiredOptionLine)}
+                    </span>
+                    <span className="font-semibold text-red-500">
+                      {Math.min(...negativeExpiredOptionLine)}
+                    </span>
+                    <span
+                      className={`${
+                        parseFloat(
+                          returnPositiveValue(
+                            Math.min(...negativeExpiredOptionLine) /
+                              Math.max(...positiveExpiredOptionLine)
+                          )
+                        ).toFixed(2) >= 1
+                          ? "text-red-500 font-semibold"
+                          : "text-green-500"
+                      }`}
+                    >
+                      {positions.length > 0 &&
+                        parseFloat(
+                          returnPositiveValue(
+                            Math.min(...negativeExpiredOptionLine) /
+                              Math.max(...positiveExpiredOptionLine)
+                          )
+                        ).toFixed(2)}
+                    </span>
+                    <span
+                      className={` ${
+                        PNLofTrade(positions) >= 0
+                          ? "text-green-500 font-semibold"
+                          : "text-red-500 "
+                      }`}
+                    >
+                      {PNLofTrade(positions)}
+                    </span>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
 
       {/* Drawer for OptionChain */}
       <div
-        className={`fixed top-0 left-0 bg-white shadow-lg z-50 xl:w-4/5 w-full h-full transform ${
+        className={`fixed top-0 left-0 bg-background shadow-lg z-50 xl:w-4/5 w-full h-full transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-out mb-5 `}
       >
-        <div className="flex sticky top-0 left-0 w-full items-center justify-between bg-white px-5 sm:px-10 lg:px-20 py-5 border-b-[1px] shadow-sm border-gray-200 z-10 ">
-          <Link href="/">
-            <h1 className="font-bold text-3xl pb-1">
-              fno/<span className="text-primary">Scanner</span>
-            </h1>
-          </Link>
+        <nav className="sticky top-0 z-10 bg-background flex flex-row justify-between items-center border-b-[1px] py-2 w-full sm:px-10 px-5">
+          <Logo />
 
           <Button
             variant="destructive"
@@ -1037,7 +1016,7 @@ const OptionChain = () => {
           >
             Close
           </Button>
-        </div>
+        </nav>
 
         <div
           className={`flex flex-col md:flex-row px-10 py-5 space-y-2 md:space-y-0 w-full justify-center items-center ${
@@ -1104,6 +1083,7 @@ const OptionChain = () => {
         <div className="lg:px-10">
           <Separator className=" bg-slate-300" />
         </div>
+
         <div className="lg:px-10 px-5">
           <ScrollArea className="md:h-[80vh] h-[60vh]">
             <Table>
@@ -1177,11 +1157,11 @@ const OptionChain = () => {
                     if (priceDifference <= priceRange) {
                       return (
                         <TableRow
-                          className="hover:bg-amber-100 text-xs"
+                          className="hover:bg-amber-0 text-xs"
                           key={optionChain.strikePrice}
                         >
                           <TableCell
-                            className={`text-center hover:bg-amber-100 ${
+                            className={`text-center hover:bg-amber-0 ${
                               parseFloat(optionChain.strikePrice) < currentPrice
                                 ? "bg-green-100"
                                 : ""
@@ -1241,7 +1221,7 @@ const OptionChain = () => {
                             </span>
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100  hidden md:table-cell ${
+                            className={`text-center hover:bg-amber-0  hidden md:table-cell ${
                               parseFloat(optionChain.strikePrice) < currentPrice
                                 ? "bg-green-100"
                                 : ""
@@ -1260,7 +1240,7 @@ const OptionChain = () => {
                             ).toFixed(2)}
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100  hidden lg:table-cell ${
+                            className={`text-center hover:bg-amber-0  hidden lg:table-cell ${
                               parseFloat(optionChain.strikePrice) < currentPrice
                                 ? "bg-green-100"
                                 : ""
@@ -1279,7 +1259,7 @@ const OptionChain = () => {
                             ).toFixed(2)}
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100  hidden md:table-cell ${
+                            className={`text-center hover:bg-amber-0  hidden md:table-cell ${
                               parseFloat(optionChain.strikePrice) < currentPrice
                                 ? "bg-green-100"
                                 : ""
@@ -1291,7 +1271,7 @@ const OptionChain = () => {
                           </TableCell>
 
                           <TableCell
-                            className={`text-center hover:bg-amber-100 ${
+                            className={`text-center hover:bg-amber-0 ${
                               parseFloat(optionChain.strikePrice) < currentPrice
                                 ? "bg-green-100"
                                 : ""
@@ -1307,11 +1287,11 @@ const OptionChain = () => {
                             </span>
                             )
                           </TableCell>
-                          <TableCell className="text-center hover:bg-amber-100 font-semibold bg-yellow-50">
+                          <TableCell className="text-center hover:bg-amber-0 font-semibold bg-yellow-50">
                             {optionChain.strikePrice}
                           </TableCell>
                           <TableCell
-                            className={`text-center  hover:bg-amber-100 ${
+                            className={`text-center  hover:bg-amber-0 ${
                               parseFloat(optionChain.strikePrice) > currentPrice
                                 ? "bg-red-100"
                                 : ""
@@ -1329,7 +1309,7 @@ const OptionChain = () => {
                           </TableCell>
 
                           <TableCell
-                            className={`text-center hover:bg-amber-100  hidden md:table-cell ${
+                            className={`text-center hover:bg-amber-0  hidden md:table-cell ${
                               parseFloat(optionChain.strikePrice) > currentPrice
                                 ? "bg-red-100"
                                 : ""
@@ -1340,7 +1320,7 @@ const OptionChain = () => {
                             ).toFixed(2)}
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100 hidden lg:table-cell ${
+                            className={`text-center hover:bg-amber-0 hidden lg:table-cell ${
                               parseFloat(optionChain.strikePrice) > currentPrice
                                 ? "bg-red-100"
                                 : ""
@@ -1359,7 +1339,7 @@ const OptionChain = () => {
                             ).toFixed(2)}
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100 hidden md:table-cell ${
+                            className={`text-center hover:bg-amber-0 hidden md:table-cell ${
                               parseFloat(optionChain.strikePrice) > currentPrice
                                 ? "bg-red-100"
                                 : ""
@@ -1378,7 +1358,7 @@ const OptionChain = () => {
                             ).toFixed(2)}
                           </TableCell>
                           <TableCell
-                            className={`text-center hover:bg-amber-100 ${
+                            className={`text-center hover:bg-amber-0 ${
                               parseFloat(optionChain.strikePrice) > currentPrice
                                 ? "bg-red-100"
                                 : ""

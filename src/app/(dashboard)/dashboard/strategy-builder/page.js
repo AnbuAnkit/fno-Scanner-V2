@@ -1,5 +1,5 @@
 import React from "react";
-import CommingSoon from "@/components/CommingSoon";
+import Builder from "@/components/Dashboard/Strategy-Builder";
 
 export const metadata = {
   title: "Strategy Builder",
@@ -8,7 +8,7 @@ export const metadata = {
 const page = () => {
   return (
     <>
-      <CommingSoon />
+      <Builder />
     </>
   );
 };
