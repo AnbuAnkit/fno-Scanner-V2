@@ -8,7 +8,7 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -747,7 +747,7 @@ const OptionChain = () => {
               i,
               NoOfDaysForExpiry(selectedDate) / 365,
               getStrikeObject(IndexStrikeDiff(currentPrice))
-                .PE_impliedVolatility / 100,
+                .CE_impliedVolatility / 100,
               0.1,
               "call"
             )
@@ -842,7 +842,7 @@ const OptionChain = () => {
                   dot={false}
                   strokeDasharray="4 4"
                 />
-                <Area
+                {/* <Area
                   strokeWidth={1.5}
                   type="monotone"
                   dataKey="positiveExpiredOptionLine"
@@ -865,7 +865,7 @@ const OptionChain = () => {
                   strokeWidth={1.5}
                   dot={false}
                   // strokeDasharray="3 3"
-                />
+                /> */}
               </ComposedChart>
             </ResponsiveContainer>
 
@@ -1167,7 +1167,7 @@ const OptionChain = () => {
                                 : ""
                             }`}
                           >
-                            <span className="space-x-2">
+                            <span className="space-x-2 flex flex-row">
                               <button
                                 onClick={() =>
                                   setGraph(
@@ -1364,7 +1364,7 @@ const OptionChain = () => {
                                 : ""
                             }`}
                           >
-                            <span className="space-x-2">
+                            <span className="space-x-2 flex flex-row">
                               <button
                                 onClick={() =>
                                   setGraph(
@@ -1444,7 +1444,7 @@ const OptionChain = () => {
         <div
           className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"
           onClick={toggleDrawer}
-        ></div>
+        />
       )}
     </>
   );

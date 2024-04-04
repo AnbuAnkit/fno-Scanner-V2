@@ -6,11 +6,11 @@ import SideBarLink from "./SideBarLink";
 const SideBar = ({ links }) => {
   return (
     <aside className="hidden xl:block bg-background fixed w-72 left-0 top-0 h-screen justify-center item-center border-r-[1px] ">
-      <ScrollArea className="h-[85vh]">
+      <ScrollArea className="h-[88vh]">
         <SideBarLink links={links} />
       </ScrollArea>
 
-      <div className="absolute bottom-0 left-0 right-0 border-t-[1px] p-5 ">
+      <div className="absolute bottom-0 left-0 right-0 border-t-[1px] p-5 bg-background ">
         <Button variant="outline" className="w-full">
           Log Out
         </Button>

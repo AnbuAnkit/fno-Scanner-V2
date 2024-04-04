@@ -75,6 +75,16 @@ const optionsSideBar = [
     icon: <MdSignalCellularAlt2Bar size={size} />,
   },
   {
+    href: "/dashboard/options/probability-curve",
+    label: "Probability Curve",
+    icon: (
+      <LiaChartLineSolid
+        size={size}
+        className="transform scale-x-[-1] rotate-12"
+      />
+    ),
+  },
+  {
     href: "/dashboard/options/atm-premium",
     label: "ATM Premium",
     icon: <BsGraphDown size={size} />,
