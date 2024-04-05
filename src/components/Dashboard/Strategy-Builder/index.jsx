@@ -738,6 +738,10 @@ const OptionChain = () => {
             )
         ).toFixed(2);
 
+        if (a > 100) {
+          a = -a + 200;
+        }
+
         array.push(a);
       } else if (i > currentPrice) {
         a = parseFloat(
@@ -752,6 +756,10 @@ const OptionChain = () => {
               "call"
             )
         ).toFixed(2);
+
+        if (a > 100) {
+          a = -a + 200;
+        }
 
         array.push(a);
       }
@@ -842,7 +850,7 @@ const OptionChain = () => {
                   dot={false}
                   strokeDasharray="4 4"
                 />
-                {/* <Area
+                <Area
                   strokeWidth={1.5}
                   type="monotone"
                   dataKey="positiveExpiredOptionLine"
@@ -865,7 +873,7 @@ const OptionChain = () => {
                   strokeWidth={1.5}
                   dot={false}
                   // strokeDasharray="3 3"
-                /> */}
+                />
               </ComposedChart>
             </ResponsiveContainer>
 
