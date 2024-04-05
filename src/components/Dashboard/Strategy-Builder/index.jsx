@@ -775,8 +775,8 @@ const OptionChain = () => {
             Option Chain
           </Button>
 
-          <div className="items-center text-xs hidden lg:flex">
-            SPOT Price: <span className="text-blue-500">{currentPrice}</span>{" "}
+          <div className="items-center text-xs hidden lg:flex font-semibold">
+            SPOT Price : <span className="text-blue-500">{currentPrice}</span>
           </div>
         </div>
         <div className=" md:space-x-5 space-y-2 md:space-y-0 flex flex-col md:flex-row items-center ">
@@ -797,7 +797,7 @@ const OptionChain = () => {
           </Button>
         </div>
       </div>
-      <div className="px-10 ">
+      <div className="px-5">
         <Separator />
       </div>
 
