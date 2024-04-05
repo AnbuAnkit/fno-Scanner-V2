@@ -1,9 +1,8 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { LogIn } from "lucide-react";
 import NavLink from "./NavLink";
 import Logo from "@/components/Icon/Logo";
 import SheetComponent from "./SheetComponent";
+import LoginButton from "@/components/Navbar/LoginButton";
 
 const index = () => {
   return (
@@ -17,10 +16,7 @@ const index = () => {
       </div>
 
       <div>
-        <Button size="sm" variant="outline">
-          <LogIn size={16} />
-          <span className="pl-2">Login</span>
-        </Button>
+        <LoginButton />
       </div>
     </nav>
   );
