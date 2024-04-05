@@ -12,6 +12,8 @@ import Straddle from "@/components/Icon/Straddle";
 import Strangle from "@/components/Icon/Strangle";
 import { PiArrowsDownUpFill } from "react-icons/pi";
 import PriceVsOi from "@/components/Icon/PriceVsOi";
+import BellCurve from "@/components/Icon/BellCurve";
+import PCR from "@/components/Icon/PCR";
 
 const size = 20;
 
@@ -67,7 +69,7 @@ const optionsSideBar = [
   {
     href: "/dashboard/options/put-call-ratio",
     label: "Put-Call Ratio",
-    icon: <Home size={size} />,
+    icon: <PCR className="text-sm font-bold" />,
   },
   {
     href: "/dashboard/options/call-vs-put-oi",
@@ -77,12 +79,7 @@ const optionsSideBar = [
   {
     href: "/dashboard/options/probability-curve",
     label: "Probability Curve",
-    icon: (
-      <LiaChartLineSolid
-        size={size}
-        className="transform scale-x-[-1] rotate-12"
-      />
-    ),
+    icon: <BellCurve size={25} className="text-primary" />,
   },
   {
     href: "/dashboard/options/atm-premium",
@@ -151,7 +148,7 @@ const currencySideBar = [
   {
     href: "/dashboard/currency/put-call-ratio",
     label: "Put-Call Ratio",
-    icon: <Home size={size} />,
+    icon: <PCR className="text-sm font-bold" />,
   },
   {
     href: "/dashboard/currency/call-vs-put-oi",
