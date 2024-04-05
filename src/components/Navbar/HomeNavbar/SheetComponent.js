@@ -13,7 +13,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { futuresSideBar, optionsSideBar, currencySideBar } from "@/constants";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LogIn } from "lucide-react";
@@ -93,7 +92,7 @@ export default function PrivateNavSheet() {
                 <div className="flex flex-col space-y-2">
                   <SheetClose asChild>
                     <Link
-                      href="/sign-in"
+                      href="/login"
                       className={
                         "w-full  hover:bg-slate-200 px-5 py-3 rounded-md border text-sm font-semibold flex flex-row items-center"
                       }
@@ -104,7 +103,7 @@ export default function PrivateNavSheet() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      href="/sign-up"
+                      href="/signup"
                       className={
                         "w-full  bg-primary text-white px-5 py-3 rounded-md border text-sm font-semibold"
                       }
