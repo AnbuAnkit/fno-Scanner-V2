@@ -141,7 +141,7 @@ const OiBuildup = () => {
   }
 
   return (
-    <div className="w-full h-fit xl:pr-5 pb-5 px-3 xl:px-0">
+    <div className="w-full h-fit xl:pr-5 pb-10 px-3 xl:px-0">
       <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
         <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
           <Select onValueChange={setSelectedIndex}>

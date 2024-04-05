@@ -158,7 +158,7 @@ const OiBuildup = () => {
     );
   }
   return (
-    <div className="w-full h-fit xl:pr-5 pb-5 px-3 xl:px-0">
+    <div className="w-full h-fit xl:pr-5 pb-10 px-3 xl:px-0">
       <div className="flex md:flex-row flex-col justify-between items-center bg-background py-3 md:py-0">
         <div className="flex md:flex-row flex-col items-center md:space-x-3 md:py-5 space-y-2 md:space-y-0">
           <Select onValueChange={setSelectedIndex}>
@@ -256,7 +256,7 @@ const OiBuildup = () => {
           </TableRow>
           <TableRow>
             <TableHead className="text-center  text-xs font-semibold bg-green-200">
-              OVER-ALL INDEX TREND
+              OVER-ALL TREND
             </TableHead>
             <TableHead className="text-center text-xs font-semibold  bg-green-200">
               OI-BUILDUP
@@ -292,7 +292,7 @@ const OiBuildup = () => {
               OI-BUILDUP
             </TableHead>
             <TableHead className="text-center  text-xs font-semibold bg-red-200">
-              OVER-ALL INDEX TREND
+              OVER-ALL TREND
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -365,7 +365,7 @@ const OiBuildup = () => {
                           : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md" // Gray as a default or for any other scenario
                       }`}
                     >
-                      <span className="text-xs text-white">
+                      <span className="text-xs font-semibold">
                         {oiBuildupItem.CE_change > 0 &&
                         oiBuildupItem.CE_changeinOpenInterest > 0 ? (
                           <span>
@@ -478,7 +478,7 @@ const OiBuildup = () => {
                           : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md" // Gray as a default or for any other sPEnario
                       }`}
                     >
-                      <span className="text-xs text-white">
+                      <span className="text-xs font-semibold">
                         {oiBuildupItem.PE_change > 0 &&
                         oiBuildupItem.PE_changeinOpenInterest > 0 ? (
                           <span>
@@ -527,7 +527,7 @@ const OiBuildup = () => {
                           : "px-2 py-1 bg-gray-200 text-gray-600 rounded-md"
                       }`}
                     >
-                      <span className="text-xs text-white">
+                      <span className="text-xs font-semibold">
                         {(oiBuildupItem.PE_change > 0 &&
                           oiBuildupItem.PE_changeinOpenInterest > 0) ||
                         (oiBuildupItem.PE_change > 0 &&

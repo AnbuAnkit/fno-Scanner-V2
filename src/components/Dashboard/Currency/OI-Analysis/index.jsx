@@ -219,7 +219,7 @@ const MaxPain = () => {
 
       <div className="flex justify-center items-center flex-col space-y-6 py-5">
         <h2 className="text-base font-bold">Open-Intrests</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {optionChain.length === 0 ? (
             <SelectDateCard />
           ) : (
@@ -258,7 +258,7 @@ const MaxPain = () => {
           )}
         </div>
         <h2 className="text-base font-bold">Open-Intrests * LTP</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {optionChain.length === 0 ? (
             <SelectDateCard />
           ) : (
@@ -297,7 +297,7 @@ const MaxPain = () => {
           )}
         </div>
         <h2 className="text-base font-bold">Change in Open-Intrests</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {optionChain.length === 0 ? (
             <SelectDateCard />
           ) : (
@@ -344,7 +344,7 @@ const MaxPain = () => {
           )}
         </div>
         <h2 className="text-base font-bold">Change in Open-Intrests * LTP</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {optionChain.length === 0 ? (
             <SelectDateCard />
           ) : (

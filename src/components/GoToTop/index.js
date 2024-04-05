@@ -30,7 +30,7 @@ const GoToTop = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-10 right-10 z-10 shadow-2xl">
+    <div className="fixed bottom-24 right-10 z-10 shadow-2xl">
       {isVisible && (
         <Button
           variant="default"

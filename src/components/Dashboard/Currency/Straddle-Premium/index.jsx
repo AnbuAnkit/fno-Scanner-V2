@@ -260,16 +260,9 @@ const MaxPain = () => {
 
       <div className="flex justify-center items-center flex-col space-y-6 py-5 mb-5">
         <h2 className="text-base font-bold">Straddle Premium</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {oiData.length === 0 ? (
-            <div className="px-10 h-full w-full">
-              <Card className="px-10 h-full w-full">
-                <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                  <span>Select Index and </span>
-                  <span className="text-primary"> Exp. Date </span>
-                </CardTitle>
-              </Card>
-            </div>
+            <SelectDateCard />
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
@@ -304,16 +297,9 @@ const MaxPain = () => {
           )}
         </div>
         <h2 className="text-base font-bold">CE and PE Premium</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {oiData.length === 0 ? (
-            <div className="px-10 h-full w-full">
-              <Card className="px-10 h-full w-full">
-                <CardTitle className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl">
-                  <span>Select Index and </span>
-                  <span className="text-primary"> Exp. Date </span>
-                </CardTitle>
-              </Card>
-            </div>
+            <SelectDateCard />
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart

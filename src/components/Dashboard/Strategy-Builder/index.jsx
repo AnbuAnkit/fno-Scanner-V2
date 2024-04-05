@@ -809,7 +809,7 @@ const OptionChain = () => {
         <Separator />
       </div>
 
-      <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full py-5 my-10">
+      <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full py-5 my-10">
         {positions.length === 0 ? (
           <div className="px-10 h-full w-full">
             <div className=" flex justify-center items-center h-full w-full space-x-2 text-base md:text-2xl font-semibold">

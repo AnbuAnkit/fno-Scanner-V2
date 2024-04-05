@@ -236,9 +236,9 @@ const MaxPain = () => {
 
       <Separator />
 
-      <div className="flex justify-center items-center flex-col space-y-6 py-5">
+      <div className="flex justify-center items-center flex-col space-y-6 py-5 mb-5">
         <h2 className="text-base font-bold">ATM Premium</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {oiData.length === 0 ? (
             <SelectDateCard />
           ) : (
@@ -275,7 +275,7 @@ const MaxPain = () => {
           )}
         </div>
         <h2 className="text-base font-bold">ATM and Price</h2>{" "}
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {oiData.length === 0 ? (
             <SelectDateCard />
           ) : (

@@ -315,7 +315,7 @@ const MaxPain = () => {
 
       <div className="flex justify-center items-center flex-col space-y-6 py-5">
         <h2 className="text-base font-bold">Prob. Curve</h2>
-        <div className="xl:h-[60vh] md:h-[50vh] h-[40vh] w-full">
+        <div className="xl:h-[70vh] md:h-[50vh] h-[40vh] w-full">
           {ProbabilityOfTouchGraph.length === 0 ? (
             <SelectDateCard />
           ) : (
