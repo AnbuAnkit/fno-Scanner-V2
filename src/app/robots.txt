@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: 
+Sitemap: https://www.fnoscanner.com/sitemap.xml
