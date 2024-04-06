@@ -20,14 +20,14 @@ export const metadata = {
   description:
     "Fno Scanner revolutionizes option chain analysis in the Indian stock market. Discover real-time data insights and unleash the power of options trading with our comprehensive tool. Seamlessly develop winning strategies with our strategy builder and test them risk-free with our paper trading feature. Stay ahead with advanced analytics and join a community of savvy traders",
 
-  twitter: {
-    title: {
-      default:
-        "Fno Scanner - Most Advanced Option Analysing tool and Paper-Trading",
-      template: " %s | Fno Scanner ",
-    },
-    card: "summary_large_image",
-  },
+  // twitter: {
+  //   title: {
+  //     default:
+  //       "Fno Scanner - Most Advanced Option Analysing tool and Paper-Trading",
+  //     template: " %s | Fno Scanner ",
+  //   },
+  //   card: "summary_large_image",
+  // },
   applicationName: "Fno Scanner",
   keywords: [
     "options paper trading",
