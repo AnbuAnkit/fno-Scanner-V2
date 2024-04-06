@@ -5,8 +5,9 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex h-[90vh] justify-center items-center flex-col space-y-4">
-      <div className="text-3xl font-semibold">
-        For Now Just Go to Dashboard.
+      <div className="text-3xl font-bold">
+        For Now Just <span className="text-primary">Go to Dashboard</span>, to
+        Use it.
       </div>
 
       <Link
