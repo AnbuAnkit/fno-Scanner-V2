@@ -1,4 +1,10 @@
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+export const metadata = {
+  title: "404",
+};
 
 export default function Component() {
   return (
@@ -14,7 +20,7 @@ export default function Component() {
         </p>
       </div>
       <Link
-        className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200  bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+        className={cn(buttonVariants({ variant: "default", size: "lg" }))}
         href="/"
       >
         Go to the homepage
