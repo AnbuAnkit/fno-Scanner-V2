@@ -24,6 +24,11 @@ const urls = [
     priority: "1.0",
   },
   {
+    loc: "https://fnoscanner.com/dashboard/options/probability-curve",
+    changefreq: "daily",
+    priority: "1.0",
+  },
+  {
     loc: "https://fnoscanner.com/dashboard/options/option-chain",
     changefreq: "daily",
     priority: "1.0",
