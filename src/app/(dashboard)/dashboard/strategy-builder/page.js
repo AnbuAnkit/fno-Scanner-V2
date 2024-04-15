@@ -10,7 +10,7 @@ const page = () => {
   return (
     <>
       <Builder />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
