@@ -1,13 +1,15 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-const url = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_DB_NAME;
-const dbCollection = process.env.MONGODB_DB_COL1;
-
-const client = new MongoClient(url);
+export const dynamic = 'force-dynamic';
 
 async function connectToDatabase() {
+  const url = process.env.MONGODB_URI;
+  const dbName = process.env.MONGODB_DB_NAME;
+  const dbCollection = process.env.MONGODB_DB_COL1;
+
+  const client = new MongoClient(url);
+  
   if (!client.topology || !client.topology.isConnected()) {
     await client.connect();
   }
@@ -17,13 +19,12 @@ async function connectToDatabase() {
 export async function GET() {
   try {
     const db = await connectToDatabase();
-    const collection = db.collection(dbCollection);
+    const collection = db.collection(process.env.MONGODB_DB_COL1);
     const value = "expiryDate";
 
     // Find the latest document by 'currentDateTime'
     const findResult = await collection
       .find({ identifier: value })
-
       .toArray();
 
     // Check if a document was found

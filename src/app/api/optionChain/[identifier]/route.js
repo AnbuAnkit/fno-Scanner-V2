@@ -3,13 +3,15 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-const url = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_DB_NAME;
-const dbCollection = process.env.MONGODB_DB_COL1;
-
-const client = new MongoClient(url);
+export const dynamic = 'force-dynamic';
 
 async function connectToDatabase() {
+  const url = process.env.MONGODB_URI;
+  const dbName = process.env.MONGODB_DB_NAME;
+  const dbCollection = process.env.MONGODB_DB_COL1;
+
+  const client = new MongoClient(url);
+  
   if (!client.topology || !client.topology.isConnected()) {
     await client.connect();
   }
@@ -18,10 +20,10 @@ async function connectToDatabase() {
 
 export async function GET(request, context) {
   try {
-    const params = context.params;
+    const params = await context.params;
     const value = params.identifier;
     const db = await connectToDatabase();
-    const collection = db.collection(dbCollection);
+    const collection = db.collection(process.env.MONGODB_DB_COL1);
 
     const findResult = await collection.findOne({ identifier: value });
 

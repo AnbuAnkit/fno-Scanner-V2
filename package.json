@@ -2,11 +2,18 @@
   "name": "fno",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
+  "description": "Fno Scanner - Most Advanced Option Analysing tool and Paper Trading",
+  "author": "Fno Scanner Team",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "electron .",
+    "lint": "next lint",
+    "electron:dev": "concurrently -k \"npm run dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:pack": "npm run build && electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
@@ -20,10 +27,11 @@
     "@reduxjs/toolkit": "^2.2.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "electron-is-dev": "^2.0.0",
     "greeks": "^1.0.0",
     "lucide-react": "^0.363.0",
     "mongodb": "^6.5.0",
-    "next": "14.1.4",
+    "next": "^14.2.35",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
@@ -35,10 +43,46 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "concurrently": "^8.2.2",
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.35",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^4.3.3",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.fnoscanner.app",
+    "productName": "Fno Scanner",
+    "files": [
+      "electron/**/*",
+      ".next/standalone/**/*",
+      ".next/static/**/*",
+      "public/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
